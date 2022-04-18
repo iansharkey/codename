@@ -1,0 +1,62 @@
+<html>
+
+<head>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+
+
+<body>
+
+<div>
+<label>Name: <input type="text" id="fullname"></label>
+</div>
+<div>
+
+<label>Job posting: <input type="text" id="jobsrc"></label>
+</div>
+
+<div>
+<label>Codename: <input type="text" id="codename"></label>
+</div>
+
+<div>
+<label>Date (YYYYMMDD): <input type="text" id="date"></label>
+</div>
+
+<div>
+<input type="button" id="goButton" value="Go">
+</div>
+
+<div id="output">
+
+</div>
+
+<script>
+var goButton = document.getElementById("goButton");
+var nameField = document.getElementById("fullname");
+var jobsrcField = document.getElementById("jobsrc");
+var codenameField = document.getElementById("codename");
+var dateField = document.getElementById("date");
+var outputDiv = document.getElementById("output");
+goButton.addEventListener("click", () => {
+
+var message_str = nameField.value;
+var signature_hash_obj = CryptoJS.HmacSHA256(nameField.value, jobsrcField.value);
+var signature_str = signature_hash_obj.toString(CryptoJS.enc.Base64);
+
+signature_hash_obj = CryptoJS.HmacSHA256(signature_str, codenameField.value);
+signature_str = signature_hash_obj.toString(CryptoJS.enc.Base64);
+
+signature_hash_obj = CryptoJS.HmacSHA256(signature_str, dateField.value);
+signature_str = signature_hash_obj.toString(CryptoJS.enc.Hex);
+
+output.innerHTML = codenameField.value + " (" + signature_str.slice(0, 14) + ")";
+
+
+
+});
+
+</script>
+
+</body>
+</html>
