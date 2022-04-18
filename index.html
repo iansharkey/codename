@@ -41,7 +41,11 @@ var outputDiv = document.getElementById("output");
 goButton.addEventListener("click", () => {
 
 var message_str = nameField.value;
-var signature_hash_obj = CryptoJS.HmacSHA256(nameField.value, jobsrcField.value);
+var salt = "nonce goes here";
+
+var data = CryptoJS.PBKDF2(message_str, salt, { iterations: 10000 });
+
+var signature_hash_obj = CryptoJS.HmacSHA256(data, jobsrcField.value);
 var signature_str = signature_hash_obj.toString(CryptoJS.enc.Base64);
 
 signature_hash_obj = CryptoJS.HmacSHA256(signature_str, codenameField.value);
