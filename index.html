@@ -39,18 +39,21 @@
   var codenameField = document.getElementById("codename");
   var dateField = document.getElementById("date");
   var outputDiv = document.getElementById("output");
+  
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
  
+  dateField.value = yyyy+mm+dd;
+  
+  var codename = localStorage.getItem("codename");
+  if (codename) {
+    codenameField.value = codename;
+  }
+  
  
- 
- var today = new Date();
- var dd = String(today.getDate()).padStart(2, '0');
- var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
- var yyyy = today.getFullYear();
-
- today = yyyy + mm +dd;
- 
- dateField.value = today;
- goButton.addEventListener("click", () => {
+  goButton.addEventListener("click", () => {
 
     var message_str = nameField.value;
     var salt = "nonce goes here";
@@ -67,6 +70,7 @@
     signature_str = signature_hash_obj.toString(CryptoJS.enc.Hex);
 
     output.innerHTML = codenameField.value + " (" + signature_str.slice(0, 14) + ")";
+    localStorage.setItem("codename", codenameField.value);
   });
 
 </script>
