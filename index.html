@@ -33,33 +33,30 @@
 </div>
 
 <script>
-var goButton = document.getElementById("goButton");
-var nameField = document.getElementById("fullname");
-var jobsrcField = document.getElementById("jobsrc");
-var codenameField = document.getElementById("codename");
-var dateField = document.getElementById("date");
-var outputDiv = document.getElementById("output");
-goButton.addEventListener("click", () => {
+  var goButton = document.getElementById("goButton");
+  var nameField = document.getElementById("fullname");
+  var jobsrcField = document.getElementById("jobsrc");
+  var codenameField = document.getElementById("codename");
+  var dateField = document.getElementById("date");
+  var outputDiv = document.getElementById("output");
+  goButton.addEventListener("click", () => {
 
-var message_str = nameField.value;
-var salt = "nonce goes here";
+    var message_str = nameField.value;
+    var salt = "nonce goes here";
 
-var data = CryptoJS.PBKDF2(message_str, salt, { iterations: 10000 });
+    var data = CryptoJS.PBKDF2(message_str, salt, { iterations: 10000 });
 
-var signature_hash_obj = CryptoJS.HmacSHA256(data, jobsrcField.value);
-var signature_str = signature_hash_obj.toString(CryptoJS.enc.Base64);
+    var signature_hash_obj = CryptoJS.HmacSHA256(data, jobsrcField.value);
+    var signature_str = signature_hash_obj.toString(CryptoJS.enc.Base64);
 
-signature_hash_obj = CryptoJS.HmacSHA256(signature_str, codenameField.value);
-signature_str = signature_hash_obj.toString(CryptoJS.enc.Base64);
+    signature_hash_obj = CryptoJS.HmacSHA256(signature_str, codenameField.value);
+    signature_str = signature_hash_obj.toString(CryptoJS.enc.Base64);
 
-signature_hash_obj = CryptoJS.HmacSHA256(signature_str, dateField.value);
-signature_str = signature_hash_obj.toString(CryptoJS.enc.Hex);
+    signature_hash_obj = CryptoJS.HmacSHA256(signature_str, dateField.value);
+    signature_str = signature_hash_obj.toString(CryptoJS.enc.Hex);
 
-output.innerHTML = codenameField.value + " (" + signature_str.slice(0, 14) + ")";
-
-
-
-});
+    output.innerHTML = codenameField.value + " (" + signature_str.slice(0, 14) + ")";
+  });
 
 </script>
 
