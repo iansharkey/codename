@@ -34,7 +34,7 @@
 
 <script>
   var goButton = document.getElementById("goButton");
-  var nameField = document.getElementById("fullname");
+  var fullnameField = document.getElementById("fullname");
   var jobsrcField = document.getElementById("jobsrc");
   var codenameField = document.getElementById("codename");
   var dateField = document.getElementById("date");
@@ -51,11 +51,15 @@
   if (codename) {
     codenameField.value = codename;
   }
-  
+
+  var fullname = localStorage.getItem("fullname");
+  if (fullname) {
+    fullnameField.value = fullname;
+  }  
  
   goButton.addEventListener("click", () => {
 
-    var message_str = nameField.value;
+    var message_str = fullnameField.value;
     var salt = "nonce goes here";
 
     var data = CryptoJS.PBKDF2(message_str, salt, { iterations: 10000 });
@@ -71,6 +75,8 @@
 
     output.innerHTML = codenameField.value + " (" + signature_str.slice(0, 14) + ")";
     localStorage.setItem("codename", codenameField.value);
+    localStorage.setItem("fullname", fullnameField.value);
+
   });
 
 </script>
