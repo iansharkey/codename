@@ -92,6 +92,7 @@
     if (hashToVerify) {
       var hashOutputList = [];
       var verifiedOutputList = [];
+     
       for ( var i = 0; i < 14; i++) {
          if ( hashOutput[i] == hashToVerify[i] ) {
            hashOutputList.push('<span style="background-color: lightgreen">' + hashOutput[i] + '</span>');
@@ -102,7 +103,7 @@
            verifiedOutputList.push('<span style="background-color: lightcoral">' + hashToVerify[i] + '</span>');
          }
       }
-      outputDiv.innerHTML = hashOutputList.join('');
+      outputDiv.innerHTML = hashOutputList.join('') + ' ' + (hashOutput == hashToVerify) ? '✅' : '❌';
       hashToVerifyDiv.innerHTML = verifiedOutputList.join('');
     }
 
