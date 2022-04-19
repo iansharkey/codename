@@ -103,7 +103,7 @@
            verifiedOutputList.push('<span style="background-color: lightcoral">' + hashToVerify[i] + '</span>');
          }
       }
-      outputDiv.innerHTML = hashOutputList.join('') + ' ' + (hashOutput == hashToVerify) ? '✅' : '❌';
+      outputDiv.innerHTML = hashOutputList.join('') + ' ' + ((hashOutput == hashToVerify) ? '✅' : '❌');
       hashToVerifyDiv.innerHTML = verifiedOutputList.join('');
     }
 
