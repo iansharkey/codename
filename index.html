@@ -90,7 +90,7 @@
     signature_str = signature_hash_obj.toString(CryptoJS.enc.Hex);
 
     var hashOutput = signature_str.slice(0, 14);
-    outputDiv.innerHTML = codenameField.value + " (" + hashOutput + ")";
+    outputDiv.innerHTML = codenameField.value + " (" + hashOutput + ", " + dateField.value + ")";
     localStorage.setItem("codename", codenameField.value);
     localStorage.setItem("fullname", fullnameField.value);
     
