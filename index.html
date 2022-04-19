@@ -94,12 +94,12 @@
       var verifiedOutputList = [];
       for ( var i = 0; i < 14; i++) {
          if ( hashOutput[i] == hashToVerify[i] ) {
-           hashOutputList.push('<font color="green">' + hashOutput[i] + '</font>');
-           verifiedOutputList.push('<font color="green">' + hashToVerify[i] + '</font>');
+           hashOutputList.push('<span style="background-color: green">' + hashOutput[i] + '</span>');
+           verifiedOutputList.push('<span style="background-color: green">' + hashToVerify[i] + '</span>');
          }
          else {
-           hashOutputList.push('<font color="lightcoral">' + hashOutput[i] + '</font>');
-           verifiedOutputList.push('<font color="lightcoral">' + hashToVerify[i] + '</font>');
+           hashOutputList.push('<span style="background-color: lightcoral">' + hashOutput[i] + '</span>');
+           verifiedOutputList.push('<span style="background-color: lightcoral">' + hashToVerify[i] + '</span>');
          }
       }
       outputDiv.innerHTML = hashOutputList.join('');
