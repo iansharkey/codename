@@ -29,9 +29,12 @@
 </div>
 
 <div id="output">
-
 </div>
 
+<div id="hashToVerify">
+</div>
+ 
+ 
 <script>
   var goButton = document.getElementById("goButton");
   var fullnameField = document.getElementById("fullname");
@@ -39,7 +42,8 @@
   var codenameField = document.getElementById("codename");
   var dateField = document.getElementById("date");
   var outputDiv = document.getElementById("output");
-  
+  var hashToVerifyDiv = document.getElementById("hashToVerify");
+ 
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -55,7 +59,14 @@
   var fullname = localStorage.getItem("fullname");
   if (fullname) {
     fullnameField.value = fullname;
-  }  
+  }
+ 
+  var params = (new URL(document.location)).searchParams;
+  var hashToVerify = params.get("h");
+ 
+  if (hashToVerify) {
+   hashToVerifyDiv.innerHTML = hashToVerify;
+  }
  
   goButton.addEventListener("click", () => {
 
