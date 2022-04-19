@@ -90,9 +90,10 @@
     signature_str = signature_hash_obj.toString(CryptoJS.enc.Hex);
 
     var hashOutput = signature_str.slice(0, 14);
-    urlparams = { codename: codenameField.value, date: dateField.value, hash: hashOutput, jobsrc: jobsrcField.value };
-    jsonUrlParams = JSON.stringify(urlparams);
-    b64UrlParams = CryptoJS.enc.Base64.stringify(jsonUrlParams);
+    var urlparams = { codename: codenameField.value, date: dateField.value, hash: hashOutput, jobsrc: jobsrcField.value };
+    var jsonUrlParams = JSON.stringify(urlparams);
+    const encodedWord = CryptoJS.enc.Utf8.parse(jsonUrlParams);
+    var b64UrlParams = CryptoJS.enc.Base64.stringify(encodedWord);
     
     
     var verifyUrl = "https://iansharkey.github.io/codename/p=" + b64UrlParams;
