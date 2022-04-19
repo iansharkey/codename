@@ -91,7 +91,7 @@
     
 
     var hashOutput = signature_str.slice(0, 14);
-    var rawHash = ("" + signature_hash_obj).slice(0, 7);
+    var rawHash = CryptoJS.enc.Latin1.stringify(CryptoJS.enc.Hex.parse(""+signature_hash_obj)).slice(0,7);
     var urlparams = [ codenameField.value, dateField.value, rawHash, jobsrcField.value ];
     var jsonUrlParams = JSON.stringify(urlparams);
     const encodedWord = CryptoJS.enc.Utf8.parse(jsonUrlParams);
