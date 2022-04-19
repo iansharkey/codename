@@ -39,7 +39,18 @@
   var codenameField = document.getElementById("codename");
   var dateField = document.getElementById("date");
   var outputDiv = document.getElementById("output");
-  goButton.addEventListener("click", () => {
+ 
+ 
+ 
+ var today = new Date();
+ var dd = String(today.getDate()).padStart(2, '0');
+ var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+ var yyyy = today.getFullYear();
+
+ today = yyyy + mm +dd;
+ 
+ dateField.value = today;
+ goButton.addEventListener("click", () => {
 
     var message_str = nameField.value;
     var salt = "nonce goes here";
