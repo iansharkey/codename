@@ -10,15 +10,15 @@
 <body>
 
 <div>
-<label>Name: <input type="text" id="fullname"></label>
-</div>
-<div>
-
-<label>Context (job posting URL, phone number, etc.): <input type="text" id="jobsrc"></label>
+ <label>Name: <input type="text" id="fullname"></label>
 </div>
 
 <div>
-<label>Persona: <input type="text" id="codename"></label>
+ <label>Context (job posting URL, phone number, etc.): <input type="text" id="jobsrc"></label>
+</div>
+
+<div>
+ <label>Persona: <input type="text" id="codename"></label>
 </div>
 
 <div>
@@ -26,7 +26,7 @@
 </div>
 
 <div>
-<input type="button" id="goButton" value="Go">
+ <input type="button" id="goButton" value="Go">
 </div>
 
 <div id="output" style="font-family: monospace">
@@ -34,7 +34,13 @@
 
 <div id="hashToVerify" style="font-family: monospace">
 </div>
- 
+
+<hr />
+
+<div>
+ <a name="verify"><label>Verify: <input type="text" id="verify"></label></a>
+</div>
+
  
 <script>
   var goButton = document.getElementById("goButton");
