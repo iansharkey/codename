@@ -85,7 +85,7 @@
     var message_str = fullnameField.value;
     var salt = "nonce goes here";
 
-    var data = CryptoJS.PBKDF2(message_str, salt, { iterations: 310000 });
+    var data = CryptoJS.PBKDF2(message_str, salt, { iterations: 310000, hasher = CryptoJS.SHA256 });
 
     var signature_hash_obj = CryptoJS.HmacSHA256(data, jobsrcField.value);
     var signature_str = signature_hash_obj.toString(CryptoJS.enc.Base64);
