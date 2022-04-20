@@ -2,6 +2,7 @@
 
 <head>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+ <script src="smaz.js"></script>
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 </head>
 
@@ -95,7 +96,8 @@
     var urlparams = [ codenameField.value, dateField.value, rawHash, jobsrcField.value ];
     var jsonUrlParams = JSON.stringify(urlparams);
     const encodedWord = CryptoJS.enc.Utf8.parse(jsonUrlParams);
-    var b64UrlParams = CryptoJS.enc.Base64.stringify(encodedWord);
+    const compressed = smaz.compress(encodedWord);
+    var b64UrlParams = CryptoJS.enc.Base64.stringify(compressed);
     
     
     var verifyUrl = "https://iansharkey.github.io/codename/p=" + b64UrlParams;
