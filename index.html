@@ -97,7 +97,7 @@
     signature_str = signature_hash_obj.toString(CryptoJS.enc.Hex);
     
 
-    var hashOutput = signature_str.slice(0, 14);
+    var hashOutput = signature_str.slice(0, 10);
     var rawHash = CryptoJS.enc.Latin1.stringify(CryptoJS.enc.Hex.parse(""+signature_hash_obj)).slice(0,7);
     var urlparams = [ codenameField.value, dateField.value, rawHash, jobsrcField.value ];
     var jsonUrlParams = JSON.stringify(urlparams);
@@ -114,7 +114,7 @@
       var hashOutputList = [];
       var verifiedOutputList = [];
      
-      for ( var i = 0; i < 14; i++) {
+      for ( var i = 0; i < 10; i++) {
          if ( hashOutput[i] == hashToVerify[i] ) {
            hashOutputList.push('<span style="background-color: lightgreen">' + hashOutput[i] + '</span>');
            verifiedOutputList.push('<span style="background-color: lightgreen">' + hashToVerify[i] + '</span>');
