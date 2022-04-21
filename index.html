@@ -148,7 +148,7 @@
       var hashOutputList = [];
       var verifiedOutputList = [];
 
-      var regexp = /([^\(]*) \((\w+), (\w+), (\d+)\)/;
+      var regexp = /([^\(]*) \((\w+), (\w*), (\d+)\)/;
       var personaStr = verifyField.value;
       var match = regexp.exec(personaStr);
       var persona = match[1];
