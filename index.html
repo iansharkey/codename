@@ -6,6 +6,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <title>Persona Generator</title>
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+ <script src="qrcode.min.js"></script>
 </head>
 
 
@@ -37,6 +38,7 @@
 <div id="output" style="font-family: monospace">
 </div>
 
+<div id="qrcode"></div>
 
 <hr />
 
@@ -99,6 +101,7 @@
   var iterationsField = document.getElementById("iterations");
   var verifyStatusSpan = document.getElementById("verifyStatus");
   var matchDiv = document.getElementById("matchStatus");
+  var qrcodeDiv = document.getElementById("qrcode");
  
   var referrer = document.referrer;
   if (referrer) {
@@ -123,10 +126,10 @@
   }
  
   var params = (new URL(document.location)).searchParams;
-  var hashToVerify = params.get("h");
+  var hashToVerify = params.get("v");
  
   if (hashToVerify) {
-   hashToVerifyDiv.innerText = hashToVerify;
+      verifyField.value = decodeURIComponent(atob(decodeURIComponent(hashToVerify)));
   }
   const byteToHex = [];
 
@@ -175,7 +178,13 @@
     var hashOutput = signature_str.slice(0, hexdigestSize);
     outputDiv.innerText = codenameField.value + " (" + hashOutput + ", " + jobsrcField.value + ", " + dateField.value + ")";
     localStorage.setItem("codename", codenameField.value);
-    localStorage.setItem("fullname", fullnameField.value);
+      localStorage.setItem("fullname", fullnameField.value);
+
+      new QRCode(qrcodeDiv,
+		 { text: "https://iansharkey.github.io/codename?v=" + encodeURIComponent(btoa(encodeURIComponent(outputDiv.innerText))),
+		   width: 128+64,
+		   height: 128+64
+		});
   });
 
 
