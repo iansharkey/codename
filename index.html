@@ -180,6 +180,7 @@
     localStorage.setItem("codename", codenameField.value);
       localStorage.setItem("fullname", fullnameField.value);
 
+      qrcodeDiv.innerHTML = "";
       new QRCode(qrcodeDiv,
 		 { text: "https://iansharkey.github.io/codename?v=" + encodeURIComponent(btoa(encodeURIComponent(outputDiv.innerText))),
 		   width: 128+64,
