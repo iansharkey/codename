@@ -1,7 +1,6 @@
 <html>
 
 <head>
- <script src="smaz.js"></script>
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 </head>
 
@@ -23,11 +22,12 @@
 
 
 <div>
-<label>Date (YYYYMMDD): <input type="text" id="date"></label>
+<label>Date (yyyy-mm-dd): <input type="text" id="date"></label>
 </div>
 
+
 <div>
- <input type="button" id="goButton" value="Go">
+ <input type="button" id="goButton" value="Generate Persona">
 </div>
 
 <div id="output" style="font-family: monospace">
@@ -37,7 +37,7 @@
 <hr />
 
 <div>
- <a name="verify"><label>Verify: <input type="text" id="verify"></label></a>
+ <a name="verify"><label>Verify: <input type="text" id="verify"></label></a><span id="verifyStatus"></span>
 </div>
 
 <div>
@@ -45,14 +45,37 @@
 </div>
 
 <div>
- <input type="button" id="verifyButton" value="Verify">
+ <input type="button" id="verifyButton" value="Verify"> 
 </div>
 
+<label>Provided</label>
 <div id="hashToVerify" style="font-family: monospace">
 </div>
 
+<label>Computed</label>
 <div id="hashComputed" style="font-family: monospace">
 </div>
+
+<label>Match?</label>
+<div id="matchStatus"></div>
+
+
+
+<hr />
+
+<div>
+  <a onclick="javascript:toggleAdvanced();">Advanced  &#x25bd;</a>
+<div id="advanced" style="display: none;">
+<div>
+  <label>Salt: <input type="text" id="salt" value="salt salt salt. salt in my hash. hash hash hash, hash into my key"></label>
+</div>
+
+<div>
+<label>PBKDF2 iterations: <input type="text" id="iterations" value="310000"></label>
+</div>
+
+</div>
+
 
 
  
@@ -68,7 +91,10 @@
   var verifyField = document.getElementById("verify");
   var providedNameField = document.getElementById("verifyName");
   var verifyButton = document.getElementById("verifyButton");
-  
+  var saltField = document.getElementById("salt");
+  var iterationsField = document.getElementById("iterations");
+  var verifyStatusSpan = document.getElementById("verifyStatus");
+  var matchDiv = document.getElementById("matchStatus");
  
   var referrer = document.referrer;
   if (referrer) {
@@ -80,7 +106,7 @@
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
  
-  dateField.value = yyyy+mm+dd;
+  dateField.value = yyyy+"-"+mm+"-"+dd;
   
   var codename = localStorage.getItem("codename");
   if (codename) {
@@ -117,13 +143,18 @@
       return hexOctets.join("");
   }
 
+  function toggleAdvanced() {
+      var advancedDiv = document.getElementById("advanced");
+      advancedDiv.style.display = advancedDiv.style.display == "block" ? "none" : "block";
+  }
 
   async function computeHash(name, persona, context, date) {
-      var salt = "salt salt salt. salt in my hash. hash hash hash, hash into my key";
+      var salt = saltField.value;
+      var iterations = parseInt(iterationsField.value);
       var keydata = new TextEncoder().encode(name);
       var key = await crypto.subtle.importKey("raw", keydata, "PBKDF2", false, ["deriveKey"])
 
-      var hmac_key = await crypto.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt: new TextEncoder().encode(salt), iterations: 310000}, key, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+      var hmac_key = await crypto.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt: new TextEncoder().encode(salt), iterations: iterations}, key, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
       
       var payload = [context, persona, date].join(",");
       var payloadData = new TextEncoder().encode(payload);
@@ -148,9 +179,16 @@
       var hashOutputList = [];
       var verifiedOutputList = [];
 
-      var regexp = /([^\(]*) \((\w+), (\w*), (\d+)\)/;
+      var regexp = /([^\(]*) \((\w{10}), (\w*), (\d{4}-\d{2}-\d{2})\)/;
       var personaStr = verifyField.value;
       var match = regexp.exec(personaStr);
+
+      if (!match) {
+	  verifyStatusSpan.innerText = "\u274c";
+          return;
+      }
+      verifyStatusSpan.innerText = "\u2705";
+
       var persona = match[1];
       var hashToVerify = match[2];
       var context = match[3];
@@ -170,8 +208,9 @@
            verifiedOutputList.push('<span style="background-color: lightcoral">' + hashToVerify[i] + '</span>');
          }
       }
-      hashToVerifyDiv.innerHTML = hashOutputList.join('') + ' ' + ((hashOutput == hashToVerify) ? '\u2705' : '\u274C');
-      hashComputedDiv.innerHTML = verifiedOutputList.join('');
+      hashComputedDiv.innerHTML = hashOutputList.join('');
+      hashToVerifyDiv.innerHTML = verifiedOutputList.join('');
+      matchDiv.innerText = ' ' + ((hashOutput == hashToVerify) ? '\u2705' : '\u274C');
       
   });
 
