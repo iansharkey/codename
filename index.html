@@ -21,7 +21,7 @@
 </div>
 
 
-<div>
+<div ondrop="event.stopPropagation(); event.preventDefault(); dodrop(event);">
  <label>Context (job posting URL, phone number, etc.): <input type="text" id="jobsrc"></label>
 </div>
 
@@ -169,6 +169,22 @@
       var signature = await crypto.subtle.sign("HMAC", hmac_key, payloadData);
       var signature_str = hex(signature);
       return signature_str;
+  }
+
+  async function dodrop(event) {
+      var dt = event.dataTransfer;
+      var files = dt.files;
+
+      var count = files.length;
+      for (var i = 0; i < files.length; i++) {
+	  var reader = new FileReader();
+	  reader.onloadend = async (evt) => {
+	      if (evt.target.readyState == FileReader.DONE) {
+		  jobsrcField.value = hex(await crypto.subtle.digest('SHA-256', evt.target.result)).slice(0, 12);
+	      }
+	  };
+	  reader.readAsArrayBuffer(files[i]);
+      }
   }
   
   goButton.addEventListener("click", async () => {
