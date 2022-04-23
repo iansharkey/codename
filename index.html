@@ -177,10 +177,11 @@
 
       var count = files.length;
       for (var i = 0; i < files.length; i++) {
+	  var filename = files[i].name;
 	  var reader = new FileReader();
 	  reader.onloadend = async (evt) => {
 	      if (evt.target.readyState == FileReader.DONE) {
-		  jobsrcField.value = hex(await crypto.subtle.digest('SHA-256', evt.target.result)).slice(0, 12);
+		  jobsrcField.value = filename.replace(",", "_") + ":" + hex(await crypto.subtle.digest('SHA-256', evt.target.result)).slice(0, 12);
 	      }
 	  };
 	  reader.readAsArrayBuffer(files[i]);
@@ -199,8 +200,8 @@
       qrcodeDiv.innerHTML = "";
       new QRCode(qrcodeDiv,
 		 { text: "https://iansharkey.github.io/codename?v=" + encodeURIComponent(btoa(encodeURIComponent(outputDiv.innerText))),
-		   width: 128+64,
-		   height: 128+64
+		   correctLevel: QRCode.CorrectLevel.L
+
 		});
   });
 
